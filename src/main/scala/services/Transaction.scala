@@ -36,8 +36,8 @@ object Transaction {
     val result = try {
       Await.result(futureAccount, 1.second)
     } catch {
-      case _: Throwable => Seq.empty[Seq[(Int, transaction, Double, LocalDate)]]
+      case _: Throwable => None
     }
-    result
+    Some(result)
   }
 }

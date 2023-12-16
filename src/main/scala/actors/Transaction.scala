@@ -14,14 +14,20 @@ class Transaction extends Actor{
       }
     case CountUserTransactions(customerId) =>
       val allTransactions = RetrieveRecentTransactions(sender().path.name, customerId)
-      println(s"*********************** Recent Transactions ***********************")
-      for {
-        (name, bank, id, transaction, amount, date, toID) <- allTransactions
-      } yield {
-        toID match {
-          case Some(id) => println(s"[${sender().path.name} ${self.path.name}] customer name: ${name} | bank service: ${bank} | accountID: ${id} -> transaction type: ${transaction} | amount: ${amount} | date: ${date} | to: ${toID}")
-          case None => println(s"[${sender().path.name} ${self.path.name}] customer name: ${name} | bank service: ${bank} | accountID: ${id} -> transaction type: ${transaction} | amount: ${amount} | date: ${date}")
+      allTransactions match {
+        case Some(transactions) => {
+          println(s"*********************** Recent Transactions ***********************")
+          transactions.iterator.foreach {
+            case (name, bank, id, transaction, amount, date, toID) =>
+              toID match {
+                case Some(_) =>
+                  println(s"[${sender().path.name} ${self.path.name}] customer name: ${name} | bank service: ${bank} | accountID: ${id} -> transaction type: ${transaction} | amount: ${amount} | date: ${date} | to: accountID-${toID.get}")
+                case None =>
+                  println(s"[${sender().path.name} ${self.path.name}] customer name: ${name} | bank service: ${bank} | accountID: ${id} -> transaction type: ${transaction} | amount: ${amount} | date: ${date}")
+              }
+          }
         }
+        case _ => println(s"[${self.path.parent.name} -> ${self.path.name}] Failed to get all Transactions for customer id $customerId !")
       }
   }
 }

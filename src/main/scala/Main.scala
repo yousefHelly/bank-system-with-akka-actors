@@ -8,49 +8,56 @@ object Main extends App {
     val bankAlAhlyService = system.actorOf(BankService.CreateBankService((1/100F, 5/100F, 10/100F)), "bank-alAhly")
     val naguib = system.actorOf(Props[Customer], "customer-naguib")
     val yousef = system.actorOf(Props[Customer], "customer-yousef")
+    val ahmed = system.actorOf(Props[Customer], "customer-ahmed")
 
   /**
    * initialize a new customer or gets his details from the database if he exists
    * */
 
-//  yousef ! Initialize(CustomerType(name = "yousef helly", email = "yousef.helly@gmail.com", phone = "01020273407", address = "Egypt, Giza,Eshreen st."))
-//  Thread.sleep(1500)
+    Thread.sleep(1500)
+    yousef ! Initialize(CustomerType(name = "yousef helly", email = "yousef.helly@gmail.com", phone = "01020273407", address = "Egypt, Giza,Eshreen st."))
+//    ahmed ! GetMyInfo()
+    ahmed ! Initialize(CustomerType(name = "ahmed mohamed", email = "ahmed@gmail.com", phone = "01020273407", address = "Egypt, Giza,Eshreen st."))
 
   /**
    * Create a new account in a bank service and initialize it with an initial balance
    * */
 
-  //naguib ! CreateAccount(bankAlAhlyService, 25000)
+    //ahmed ! CreateAccount(bankAlAhlyService, 1000)
+    //ahmed ! CreateAccount(bankMisrService, 500)
   //Thread.sleep(1500)
 
   /**
    * Get information about customer and his accounts
    * */
 
-  //naguib ! GetMyInfo()
-  //Thread.sleep(1500)
+    //ahmed ! GetMyInfo()
+
+  Thread.sleep(1500)
 
   /**
    * make a deposit or withdraw to the bank account
    * */
 
-  //naguib ! Withdraw(bankAlAhlyService, 10000, 2)
+    //ahmed ! Withdraw(bankAlAhlyService, 500, 2)
   //Thread.sleep(1500)
-  //naguib ! Deposit(bankAlAhlyService, 5045)
+   // ahmed ! Deposit(bankAlAhlyService, 5045)
   //Thread.sleep(1500)
 
   /**
    * transfer money to another account
    * */
 
-  //naguib ! Transfer(bankMisrService, yousef, 3500, accountNumber = 2, toBankService = bankMisrService)
+  //ahmed ! Transfer(bankMisrService, yousef, 250, toBankService = bankMisrService)
   //Thread.sleep(1500)
 
   /**
    * Get the Customer recent transactions related to bank service
    * */
 
-  //naguib ! GetRecentTransactions(bankAlAhlyService)
+  //ahmed ! GetRecentTransactions(bankAlAhlyService)
+  Thread.sleep(2000)
+  ahmed ! GetRecentTransactions(bankMisrService)
   //Thread.sleep(1500)
 
 }
